@@ -22,15 +22,25 @@
     </header>
 
 
-    <!-- Image Upload  -->
-    <section id="upload">
-        <h2>Upload Your Images</h2>
-        <p>Select a file to analyze for whooping cranes.</p>
-        <input type="file" id="imageUpload" accept="image/*">
-        <div id="result">
-        </div>
-    </section>
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <ul>
+                {% for message in messages %}
+                    <li>{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    {% endwith %}
 
+    <form action="/" method="post" enctype="multipart/form-data">
+        <input type="file" name="files" multiple webkitdirectory>
+        <br><br>
+        <button type="submit">Upload</button>
+    </form>
+
+    {% if excel_ready %}
+        <a href="{{ url_for('download_file') }}">Download Excel File</a>
+    {% endif %}
 
 </body>
 </html>
