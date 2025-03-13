@@ -1,6 +1,5 @@
 from flask import Flask
 from flask import render_template, request, redirect, url_for, flash, send_file
-from flask_cors import CORS
 import os
 import shutil
 import pandas as pd
