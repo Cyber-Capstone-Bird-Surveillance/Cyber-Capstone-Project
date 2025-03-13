@@ -82,13 +82,34 @@ a:hover {
     background-color: #1b3e1b;
 }
 
-.content{
+.buttons{
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     
 }
+
+.content{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.pictures{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.pictures img {
+    width: 300px;
+    height: auto; 
+    margin: 50px; 
+    border-radius: 10px; 
+}
+
 
 /* Responsive Design */
 @media (max-width: 600px) {

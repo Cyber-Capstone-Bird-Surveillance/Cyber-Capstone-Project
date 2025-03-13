@@ -18,29 +18,34 @@
     </header>
 
     <div class="content">
-        <form action="/" method="post" enctype="multipart/form-data">
-            <input type="file" name="files" multiple webkitdirectory>
-            <br><br>
-            <button type="submit">Upload</button>
-        </form>
-    
-    
-        {% with messages = get_flashed_messages() %}
-            {% if messages %}
-                <ul>
-                    {% for message in messages %}
-                        <li>{{ message }}</li>
-                    {% endfor %}
-                </ul>
+        <div class="buttons">
+            <form action="/" method="post" enctype="multipart/form-data">
+                <input type="file" name="files" multiple webkitdirectory>
+                <br><br>
+                <button type="submit">Upload</button>
+            </form>
+        
+        
+            {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                    <ul>
+                        {% for message in messages %}
+                            <li>{{ message }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            {% endwith %}
+        
+            {% if excel_ready %}
+                <a href="{{ url_for('download_file') }}">Download Excel File</a>
             {% endif %}
-        {% endwith %}
-    
-        {% if excel_ready %}
-            <a href="{{ url_for('download_file') }}">Download Excel File</a>
-        {% endif %}
-    </div>
+        </div>
 
-   
+        <div class="pictures">
+            <img src="{{ url_for('static', filename='_DS38628 whcr search S.jpg') }}">
+            <img src="{{ url_for('static', filename='_LS35170 2 whcr flying sm.jpg') }}">
+        </div>
+    </div>
 
 </body>
 </html>

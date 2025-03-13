@@ -4,29 +4,34 @@ import os
 import shutil
 import pandas as pd
 
-# from flask_restful import 
 app = Flask(__name__)
 app.secret_key="supersecretkey"
 
+#make uploads file
 os.makedirs("uploads", exist_ok=True)
 app.config["UPLOAD_FOLDER"] = "uploads"
 
 saved_files= []
 
+#main page
 @app.route('/', methods=["GET", "POST"])
 def upload_files():
+
+    #set to false so when you reload, the excel file link goes away
     excel_ready = False
+
     if request.method == 'POST':
         if "files" not in request.files:
             flash("No file part")
             return redirect(request.url)
         
+        #gets files
         files = request.files.getlist("files")
 
         global saved_files
         saved_files.clear()
 
-        #creates excel sheet
+        #creates excel sheet from files
         for file in files:
             filename = file.filename
             print(f"Processing {filename}")
@@ -81,5 +86,5 @@ if __name__ == "__main__":
 
 
 
-#Increase size of uploads
+#Increase size of uploads (if in gigabyte range, will probably need to set it up with AWS or whatever we use to deploy)
 #Figure out the API
