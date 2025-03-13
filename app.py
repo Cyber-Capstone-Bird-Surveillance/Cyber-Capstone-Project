@@ -2,6 +2,7 @@ from flask import Flask
 from flask import render_template, request, redirect, url_for, flash, send_file
 from flask_cors import CORS
 import os
+import shutil
 import pandas as pd
 
 # from flask_restful import 
@@ -26,6 +27,7 @@ def upload_files():
         global saved_files
         saved_files.clear()
 
+        #creates excel sheet
         for file in files:
             filename = file.filename
             print(f"Processing {filename}")
@@ -38,7 +40,6 @@ def upload_files():
                 except FileNotFoundError:
                     flash(f"Error saving file: {file.filename}. Skipping.")
                     continue
-
         if saved_files:
             excel_path = os.path.join(app.config["UPLOAD_FOLDER"], "file_list.xlsx")
             df = pd.DataFrame(saved_files, columns=["Uploaded Files"])
@@ -53,16 +54,33 @@ def upload_files():
 
 @app.route("/download")
 def download_file():
+
+    #sends excel file
     excel_path = os.path.join(app.config["UPLOAD_FOLDER"], "file_list.xlsx")
     if os.path.exists(excel_path):
         response = send_file(excel_path, as_attachment=True)
-        os.remove(excel_path)
+
+        #clears upload folder
+        for filename in os.listdir(app.config["UPLOAD_FOLDER"]):
+            file_path = os.path.join(app.config["UPLOAD_FOLDER"], filename)
+            try:
+                if os.path.isfile(file_path) or os.path.islink(file_path):
+                    os.unlink(file_path) 
+                elif os.path.isdir(file_path):
+                     shutil.rmtree(file_path) 
+            except Exception as e:
+                print(f"Error deleting {file_path}: {e}")
         global saved_files
         saved_files.clear()
-        
-        return response
+
+        return response    
     else:
         return redirect(url_for("upload_files"))
 
 if __name__ == "__main__":
     app.run(debug=True)
+
+
+
+#Increase size of uploads
+#Figure out the API
