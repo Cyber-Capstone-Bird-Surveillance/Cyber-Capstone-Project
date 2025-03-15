@@ -3,6 +3,7 @@ from flask import render_template, request, redirect, url_for, flash, send_file
 import os
 import shutil
 import pandas as pd
+import model
 
 app = Flask(__name__)
 app.secret_key="supersecretkey"
@@ -48,12 +49,22 @@ def upload_files():
             excel_path = os.path.join(app.config["UPLOAD_FOLDER"], "file_list.xlsx")
             df = pd.DataFrame(saved_files, columns=["Uploaded Files"])
             df.to_excel(excel_path, index=False)
-
-
+            # Call model.predictions for each file and store the results
+            predictions = []
+            for file in saved_files:
+                file_path = os.path.join(app.config["UPLOAD_FOLDER"], file)
+                prediction = model.predictions(file_path)
+                predictions.append(prediction)
+            
+            # Add predictions to the DataFrame
+            df["Predictions"] = predictions
+            
+            # Save the updated DataFrame to the Excel file
+            df.to_excel(excel_path, index=False)
+            
             flash("Files uploaded successfully! Click below to download the Excel file.")
             excel_ready = True
             return render_template("LandingPage.html", excel_ready=excel_ready)
-
     return render_template("LandingPage.html", excel_ready=excel_ready)
 
 @app.route("/download")

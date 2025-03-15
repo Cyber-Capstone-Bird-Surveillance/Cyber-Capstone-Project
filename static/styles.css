@@ -87,7 +87,9 @@ a:hover {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    
+    border: 2px solid #2c5f2d;
+    padding: 20px;
+    border-radius: 10px;
 }
 
 .content{
@@ -96,18 +98,34 @@ a:hover {
     align-items: center;
 }
 
-.pictures{
-    display: flex;
+.cranes, .cameras{
+    /* display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items: center;
+    align-items: center; */
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    position: relative;
 }
 
-.pictures img {
-    width: 300px;
+.crane1, .img1{
+    width: 200px;
+    height: auto; 
+    margin: 50px; 
+    grid-column: 1 / span 8;
+    grid-row: 1; 
+    padding-top: 35%; 
+    z-index: 1; 
+    border-radius: 10px; 
+    
+}
+.crane2, .img2{
+    width: 200px;
     height: auto; 
     margin: 50px; 
     border-radius: 10px; 
+    grid-column: 5 / -1;
+    grid-row: 1;
 }
 
 
