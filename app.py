@@ -53,7 +53,7 @@ def upload_files():
             predictions = []
             for file in saved_files:
                 file_path = os.path.join(app.config["UPLOAD_FOLDER"], file)
-                prediction = model.predictions(file_path)
+                prediction = model.predict(file_path)
                 predictions.append(prediction)
             
             # Add predictions to the DataFrame
